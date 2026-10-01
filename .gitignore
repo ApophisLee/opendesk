@@ -1,0 +1,23 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependency and build output
+node_modules/
+dist/
+dist-ssr/
+*.tsbuildinfo
+
+# Editor / OS noise
+.vscode/
+.idea/
+.DS_Store
+
+# Local secrets, environment files and worker sessions (never commit)
+.env
+.env.*
+*.local
+.worker-sessions/
+credentials*
+secrets*

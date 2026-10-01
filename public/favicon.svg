@@ -1,0 +1,14 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-only — Original OpenDesk icon, Copyright (C) 2026 OpenDesk contributors. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#2c3a3f"/>
+  <!-- desk surface -->
+  <rect x="14" y="38" width="36" height="4" rx="2" fill="#7fb89f"/>
+  <!-- monitor -->
+  <rect x="20" y="14" width="24" height="17" rx="3" fill="none" stroke="#a8d5ba" stroke-width="2.5"/>
+  <!-- screen beam pointing outward (remote) -->
+  <path d="M32 26 L44 20 M32 26 L44 32" stroke="#7fb89f" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <circle cx="46" cy="20" r="2.5" fill="#a8d5ba"/>
+  <circle cx="46" cy="32" r="2.5" fill="#a8d5ba"/>
+  <!-- monitor stand -->
+  <path d="M32 31 L32 38" stroke="#a8d5ba" stroke-width="2.5" stroke-linecap="round"/>
+</svg>
