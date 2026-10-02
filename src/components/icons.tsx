@@ -38,7 +38,7 @@ export function BrandMark({ size = 40 }: IconProps): JSX.Element {
       height={size}
       viewBox="0 0 64 64"
       role="img"
-      aria-label="OpenDesk 標誌"
+      aria-label="OpenDesk logo"
     >
       <rect width="64" height="64" rx="14" fill="currentColor" />
       <rect x="14" y="38" width="36" height="4" rx="2" stroke="#a8d5ba" strokeWidth="0" fill="#7fb89f" />

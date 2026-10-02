@@ -16,10 +16,10 @@ const PLATFORM_LABELS: Record<RecentDevice['platform'], string> = {
 };
 
 function formatLastUsed(iso?: string): string {
-  if (!iso) return '尚未連線過';
+  if (!iso) return 'Never connected';
   const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return '時間資料無效';
-  return `最近使用 ${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+  if (Number.isNaN(d.getTime())) return 'Invalid timestamp';
+  return `Last used ${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
 }
 
 export function RecentDevicesView({
@@ -51,7 +51,9 @@ export function RecentDevicesView({
     const ok = await copyText(id);
     if (!ok) {
       setCopiedId(null);
-      setCopyError('複製失敗：瀏覽器或隱私設定拒絕了剪貼簿存取，ID 未寫入。');
+      setCopyError(
+        'Copy failed: the browser or a privacy setting denied clipboard access, so nothing was written.',
+      );
       timerRef.current = window.setTimeout(() => setCopyError(null), 4000);
       return;
     }
@@ -65,14 +67,20 @@ export function RecentDevicesView({
   return (
     <section className="card" aria-labelledby="recent-title">
       <h2 id="recent-title" className="card__title">
-        最近裝置
+        Recent devices
       </h2>
       <p className="card__desc">
-        這裡的紀錄只是本機瀏覽器儲存的前端模擬結果：沒有實際連線過任何裝置，也不含螢幕或輸入資料。「內建範例」標記者為隨附的虛構示範資料。清除清單只會移除此清單，不會影響其他儲存項。
+        These entries are only front-end simulation results stored in this
+        browser: no device has ever actually been connected, and no screen or input
+        data is included. The <strong>Built-in sample</strong> badge marks the
+        fictional demo data shipped with this prototype. Clearing the list removes
+        only these entries and leaves other stored items untouched.
       </p>
 
       {list.length === 0 ? (
-        <div className="empty-state">目前沒有最近使用過的裝置。</div>
+        <div className="empty-state">
+          No recently used devices yet.
+        </div>
       ) : (
         <ul className="recent-list">
           {list.map((d) => (
@@ -85,7 +93,7 @@ export function RecentDevicesView({
                   {d.name}
                   {d.sample && (
                     <span className="badge badge--demo">
-                      <IconSample size={12} /> 內建範例
+                      <IconSample size={12} /> Built-in sample
                     </span>
                   )}
                 </p>
@@ -97,22 +105,22 @@ export function RecentDevicesView({
               <button
                 className="btn btn--ghost btn--small"
                 onClick={() => handleCopy(d.id)}
-                aria-label={`複製裝置 ${d.name} 的 ID`}
+                aria-label={`Copy the ID of device ${d.name}`}
               >
                 {copiedId === d.id ? <IconCheck size={14} /> : <IconCopy size={14} />}{' '}
-                {copiedId === d.id ? '已複製' : '複製'}
+                {copiedId === d.id ? 'Copied' : 'Copy'}
               </button>
               <button
                 className="btn btn--ghost btn--small"
                 onClick={() => onFill(d.id)}
               >
-                填入連線
+                Fill into connection form
               </button>
               <button
                 className="btn btn--primary btn--small"
                 onClick={() => onConnect(d)}
               >
-                示範連線
+                Demo connect
               </button>
             </li>
           ))}
@@ -126,7 +134,7 @@ export function RecentDevicesView({
       {list.length > 0 && (
         <div className="actions-row">
           <button className="btn btn--danger" onClick={onClear}>
-            <IconTrash size={16} /> 清除最近紀錄
+            <IconTrash size={16} /> Clear recent history
           </button>
         </div>
       )}

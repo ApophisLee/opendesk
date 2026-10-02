@@ -6,9 +6,9 @@ import type { NavPage } from '../types';
 import { BrandMark, IconDesktop, IconHistory, IconSettings } from './icons';
 
 const LABELS: Record<NavPage, string> = {
-  connect: '遠端連線',
-  recent: '最近裝置',
-  settings: '連線設定',
+  connect: 'Remote connection',
+  recent: 'Recent devices',
+  settings: 'Connection settings',
 };
 
 export function NavRail({
@@ -19,12 +19,12 @@ export function NavRail({
   onNavigate: (p: NavPage) => void;
 }) {
   return (
-    <nav className="sidebar" aria-label="主要導覽">
+    <nav className="sidebar" aria-label="Main navigation">
       <div className="sidebar__brand">
         <BrandMark size={40} />
         <span>
           <span className="sidebar__brand-name">OpenDesk</span>
-          <span className="sidebar__brand-tag">自由遠端桌面 · 原型</span>
+          <span className="sidebar__brand-tag">Free remote desktop · prototype</span>
         </span>
       </div>
       <ul className="nav" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
@@ -44,7 +44,7 @@ export function NavRail({
         ))}
       </ul>
       <div className="sidebar__foot">
-        <p style={{ margin: 0 }}>原始專案程式碼以 AGPL-3.0-only 授權。</p>
+        <p style={{ margin: 0 }}>Original project code is licensed under AGPL-3.0-only.</p>
         <a
           className="license-link"
           href="https://www.gnu.org/licenses/agpl-3.0.txt"
@@ -59,7 +59,7 @@ export function NavRail({
           target="_blank"
           rel="noreferrer"
         >
-          原始專案程式碼
+          Source code
         </a>
       </div>
     </nav>

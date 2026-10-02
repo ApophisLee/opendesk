@@ -44,16 +44,18 @@ export function ConnectPanel({
   return (
     <section className="card" aria-labelledby="connect-title">
       <h2 id="connect-title" className="card__title">
-        連線到遠端裝置
+        Connect to a remote device
       </h2>
       <p className="card__desc">
-        輸入對方的 OpenDesk ID（九位數字）。支援空格或連字號，例如 123 456 789。
-        <strong>本動作只跑一段前端模擬</strong>，不會發送任何網路封包。
+        Enter the other party's OpenDesk ID (nine digits). Spaces and hyphens are
+        accepted, e.g. 123 456 789.
+        <strong>This action only runs a front-end simulation</strong>; it never sends any
+        network packets.
       </p>
       <form onSubmit={handleSubmit} noValidate>
         <div className={`field${errorText ? ' has-error' : ''}`}>
           <label className="field__label" htmlFor="remote-id">
-            遠端 ID
+            Remote ID
           </label>
           <input
             id="remote-id"
@@ -72,28 +74,31 @@ export function ConnectPanel({
             }}
           />
           <span id={hintId} className="field__hint">
-            九位數字，首位不為零。示範模式不會實際連線。
+            Nine digits, first digit not zero. Demo mode never connects for real.
           </span>
         </div>
 
         {showName && (
           <div className="field">
             <label className="field__label" htmlFor="remote-name">
-              裝置備註（選填）
+              Device note (optional)
             </label>
             <input
               id="remote-name"
               name="remote-name"
               className="field__input"
               maxLength={40}
-              placeholder="例如：書房電腦"
+              placeholder="e.g. Study PC"
               value={remoteName ?? ''}
               onChange={(e) => {
                 const v = e.target.value.trimStart();
                 setRemoteName(v.length ? v : null);
               }}
             />
-            <span className="field__hint">僅作為示範顯示名稱，不會儲存到伺服器。</span>
+            <span className="field__hint">
+              Only used as a display name for this demo; nothing is sent to any
+              server.
+            </span>
           </div>
         )}
 
@@ -105,7 +110,7 @@ export function ConnectPanel({
           aria-controls={showName ? 'remote-name' : undefined}
         >
           {showName ? <IconEyeOff size={16} /> : <IconEye size={16} />}
-          {showName ? '隱藏備註' : '新增備註'}
+          {showName ? 'Hide note' : 'Add note'}
         </button>
 
         <div aria-live="polite">
@@ -118,10 +123,10 @@ export function ConnectPanel({
 
         <div className="actions-row">
           <button type="submit" className="btn btn--primary">
-            <IconConnect size={18} /> 開始示範連線
+            <IconConnect size={18} /> Start demo connection
           </button>
           <button type="button" className="btn btn--ghost" onClick={handleReset}>
-            清空
+            Clear
           </button>
         </div>
       </form>

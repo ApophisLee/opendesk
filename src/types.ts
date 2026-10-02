@@ -41,7 +41,7 @@ export const LS_KEYS = {
 /** Fictional sample devices shown when no history has been stored yet.
  *  These never represent real machines; IDs are random-looking placeholders. */
 export const SAMPLE_DEVICES: readonly RecentDevice[] = [
-  { id: '628401357', name: '示範裝置・書房桌機', platform: 'linux', sample: true },
-  { id: '731905824', name: '示範裝置・客廳筆電', platform: 'macos', sample: true },
-  { id: '856042913', name: '示範裝置・樹莓派工作機', platform: 'raspberry', sample: true },
+  { id: '628401357', name: 'Sample Device - Study Desktop', platform: 'linux', sample: true },
+  { id: '731905824', name: 'Sample Device - Living Room Laptop', platform: 'macos', sample: true },
+  { id: '856042913', name: 'Sample Device - Raspberry Pi Workstation', platform: 'raspberry', sample: true },
 ];

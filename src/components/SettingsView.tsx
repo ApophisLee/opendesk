@@ -71,9 +71,10 @@ export function SettingsView({
     // Blank rows are validated (not silently dropped) so the user learns why.
     const perRow: (string | null)[] = rows.map((r, i) => {
       const trimmed = r.value.trim();
-      if (trimmed.length === 0) return `第 ${i + 1} 筆為空白，請填入完整 URI 或移除該列。`;
+      if (trimmed.length === 0)
+        return `Entry ${i + 1} is blank; fill in a full URI or remove this row.`;
       const reason = validateStunUri(trimmed);
-      return reason ? `第 ${i + 1} 筆：${reason}` : null;
+      return reason ? `Entry ${i + 1}: ${reason}` : null;
     });
     setRowErrors(perRow);
     if (perRow.some((e) => e !== null)) {
@@ -85,19 +86,21 @@ export function SettingsView({
     const values = rows.map((r) => r.value.trim());
     if (values.length === 0) {
       setRowErrors([]);
-      setError('清單需至少一筆有效的 STUN URI（請使用「還原預設值」）。');
+      setError(
+        'The list needs at least one valid STUN URI (use Restore Google default).',
+      );
       setSaved(false);
       return;
     }
     if (new Set(values).size !== values.length) {
       setRowErrors([]);
-      setError('STUN URI 清單中不得有重複項目。');
+      setError('The STUN URI list must not contain duplicates.');
       setSaved(false);
       return;
     }
     if (values.length > MAX_ROWS) {
       setRowErrors([]);
-      setError(`最多 ${MAX_ROWS} 筆 STUN URI。`);
+      setError(`At most ${MAX_ROWS} STUN URIs.`);
       setSaved(false);
       return;
     }
@@ -105,7 +108,9 @@ export function SettingsView({
     const ok = onSave({ stunUris: values });
     if (!ok) {
       setRowErrors([]);
-      setError('儲存失敗：此環境無法寫入本機儲存空間（設定未持久化）。');
+      setError(
+        'Save failed: this environment cannot write to local storage, so the settings were not persisted.',
+      );
       setSaved(false);
       return;
     }
@@ -118,13 +123,15 @@ export function SettingsView({
   return (
     <section className="card" aria-labelledby="settings-title">
       <h2 id="settings-title" className="card__title">
-        STUN 伺服器清單
+        STUN server list
       </h2>
       <p className="card__desc">
-        格式：stun:host 或 stun:host:port（亦可用 stuns:），「僅」允許此語法——不得含
-        //、路徑或空白。最多 {MAX_ROWS} 筆且不可重複。STUN 是 ICE 用的伺服器清單，
-        <strong>不是信制（signaling）伺服器</strong>；本原型完全不會建立任何網路連線，
-        此清單只保留給未來的傳輸層使用。
+        Format: stun:host or stun:host:port (stuns: is also allowed). Only this
+        grammar is accepted &mdash; no slashes, no path and no whitespace. Up to
+{MAX_ROWS} entries, with no duplicates. STUN is a server list used by ICE;
+        it is <strong>not a signalling server</strong>. This prototype never
+        creates any network connection, so this list is reserved for a future
+        transport layer.
       </p>
 
       {rows.map((r, i) => {
@@ -135,7 +142,7 @@ export function SettingsView({
         return (
           <div className="stun-row" key={i}>
             <label className="field__label" htmlFor={inputId}>
-              第 {i + 1} 筆
+              Entry {i + 1}
             </label>
             <input
               id={inputId}
@@ -149,7 +156,7 @@ export function SettingsView({
               placeholder="stun:stun.example.org:3478"
             />
             <span id={hintId} className="field__hint">
-              範例：stun:stun.l.google.com:19302
+              Example: stun:stun.l.google.com:19302
             </span>
             <span id={errId} className="error-text" aria-hidden={!rowErr ? true : undefined}>
               {rowErr ?? ''}
@@ -158,7 +165,7 @@ export function SettingsView({
               className="btn btn--danger btn--small"
               onClick={() => removeRow(i)}
               disabled={rows.length <= 1}
-              aria-label={`移除第 ${i + 1} 筆 STUN URI`}
+              aria-label={`Remove STUN URI entry ${i + 1}`}
             >
               <IconTrash size={14} />
             </button>
@@ -172,24 +179,26 @@ export function SettingsView({
           onClick={addRow}
           disabled={rows.length >= MAX_ROWS}
         >
-          <IconPlus size={16} /> 新增一筆
+          <IconPlus size={16} /> Add an entry
         </button>
         <button className="btn btn--ghost" onClick={restoreDefault}>
-          <IconRestore size={16} /> 還原 Google 預設值
+          <IconRestore size={16} /> Restore Google default
         </button>
         <button className="btn btn--primary" onClick={save}>
-          儲存設定
+          Save settings
         </button>
       </div>
 
       <p aria-live="polite" style={{ minHeight: '1.2em', marginTop: 8 }}>
         {error && <span className="error-text">{error}</span>}
         {!error && saved && (
-          <span className="notice notice--info">設定已儲存至本機瀏覽器。</span>
+          <span className="notice notice--info">
+            Settings saved to this browser.
+          </span>
         )}
         {!error && restored && !saved && (
           <span className="notice notice--info">
-            已載入 Google 預設值（尚未儲存，請按「儲存設定」）。
+            Google default loaded (not saved yet; press Save settings with the button above).
           </span>
         )}
       </p>

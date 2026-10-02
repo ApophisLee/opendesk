@@ -107,13 +107,16 @@ function isValidHost(host: string): boolean {
 /** Returns null when the value is a valid STUN URI, otherwise a reason. */
 export function validateStunUri(value: string): string | null {
   const colonIdx = value.indexOf(':');
-  if (colonIdx <= 0) return '前綴必須是 stun: 或 stuns:（不含斜線）。';
+  if (colonIdx <= 0)
+    return 'Prefix must be stun: or stuns: (no slashes).'
   const scheme = value.slice(0, colonIdx);
-  if (scheme !== 'stun' && scheme !== 'stuns') return '前綴必須是 stun: 或 stuns:（不含斜線）。';
+  if (scheme !== 'stun' && scheme !== 'stuns')
+    return 'Prefix must be stun: or stuns: (no slashes).'
   let rest = value.slice(colonIdx + 1);
-  if (rest.startsWith('//')) return '不得包含斜線（//）；格式為 stun:host 或 stun:host:port。';
-  if (rest.length === 0) return '主機名稱不能為空白。';
-  if (rest.includes('/')) return '不得包含路徑字元。';
+  if (rest.startsWith('//'))
+    return 'Slashes (//) are not allowed; use stun:host or stun:host:port.'
+  if (rest.length === 0) return 'Host name cannot be empty.'
+  if (rest.includes('/')) return 'Path characters are not allowed.'
 
   // Split host and port outside brackets so IPv6 hosts keep their colons.
   let host = rest;
@@ -126,13 +129,14 @@ export function validateStunUri(value: string): string | null {
     const tail = rest.slice(closeIdx + 1);
     host = rest.slice(0, closeIdx + 1);
     const m = tail.match(/^:(\d{1,5})$/);
-    if (!m) return 'IPv6 位址後的埠號格式無效（應為 :port）。';
+    if (!m) return 'Invalid port after an IPv6 address (expected :port).'
     portStr = m[1];
     rest = rest.slice(0, closeIdx + 1); // host-only remainder for consistency
   } else {
     // A value that merely starts with '[' but never closes it (e.g. "[::1")
     // must not be parsed as host:port — reject it outright.
-    if (rest.startsWith('[')) return 'IPv6 位址必須完整括號（缺少結尾的 ]）。';
+    if (rest.startsWith('['))
+      return 'An IPv6 address must be fully bracketed (missing closing ]).';
     const portIdx = rest.lastIndexOf(':');
     if (portIdx !== -1) {
       host = rest.slice(0, portIdx);
@@ -141,14 +145,17 @@ export function validateStunUri(value: string): string | null {
   }
 
   if (portStr !== null) {
-    if (!/^\d{1,5}$/.test(portStr)) return '埠號必須是 1 到 65535 之間的數字。';
+    if (!/^\d{1,5}$/.test(portStr))
+      return 'Port must be a number between 1 and 65535.'
     const port = Number(portStr);
-    if (port < 1 || port > 65535) return `埠號 ${port} 超出範圍（1..65535）。`;
+    if (port < 1 || port > 65535)
+      return `Port ${port} is out of range (1..65535).`;
   }
   // An unclosed bracket such as "stun:[::1" is invalid even though a colon
   // inside it was not treated as a port separator; without brackets an IPv6
   // value would contain unescaped colons and fail the host check anyway.
-  if (!isValidHost(host)) return '主機名稱無效（請使用域名，或括號包住的 IPv6 位址）。';
+  if (!isValidHost(host))
+    return 'Invalid host name (use a domain name, or a bracketed IPv6 address).'
   return null;
 }
 

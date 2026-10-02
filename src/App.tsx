@@ -57,7 +57,7 @@ export function App({
     (devices: RecentDevice[]) => {
       const ok = onRecentChange(devices);
       if (!ok) {
-        setStorageWarn('本機儲存空間寫入失敗：清單僅存在於記憶體，重新載入後會遺失。');
+        setStorageWarn('Local storage write failed: the list exists only in memory and will be lost after a reload.');
       }
       return ok;
     },
@@ -97,7 +97,7 @@ export function App({
       if (result === 'session') {
         setPhase('session');
         if (!commitHistory(t)) {
-          setStorageWarn('連線紀錄儲存失敗：此條示範紀錄未寫入本機儲存空間。');
+          setStorageWarn('Could not save history: this demo entry was not written to local storage.');
         } else {
           setStorageWarn(null);
         }
@@ -113,11 +113,11 @@ export function App({
     (idRaw: string, name: string | null) => {
       const id = normalizeId(idRaw);
       if (id === null || !isValidNineDigitId(id)) {
-        setIdError('ID 無效：請輸入九位數字（可含空格或連字號）。');
+        setIdError('Invalid ID: enter nine digits (spaces or hyphens allowed).');
         return;
       }
       if (id === localId) {
-        setIdError('不能連線到本機自己的 ID。');
+        setIdError('You cannot connect to your own local ID.');
         return;
       }
       setIdError(null);
@@ -156,11 +156,11 @@ export function App({
       <main className="main">
         <header className="topbar">
           <h1 className="topbar__title">
-            {page === 'connect' && '遠端連線'}
-            {page === 'recent' && '最近裝置'}
-            {page === 'settings' && '連線設定'}
+            {page === 'connect' && 'Remote connection'}
+            {page === 'recent' && 'Recent devices'}
+            {page === 'settings' && 'Connection settings'}
           </h1>
-          <span className="badge badge--demo">介面原型 · 僅供示範</span>
+          <span className="badge badge--demo">UI prototype · demo only</span>
         </header>
 
         <div className="content">
@@ -241,11 +241,11 @@ function ConnectingPanel({
       <div className="connecting-box">
         <span className="spinner" role="presentation" />
         <p>
-          <strong>示範連線中（非實際網路連線）</strong>：正在模擬連線到{' '}
-          {target ? `${target.name}（${formatId(target.id)}）` : ''}…
+          <strong>Demo connecting (not a real network connection)</strong>: simulating a
+          connection to {target ? `${target.name} (${formatId(target.id)})` : ''}…
         </p>
         <button className="btn btn--danger" onClick={onCancel}>
-          取消示範連線
+          Cancel demo connection
         </button>
       </div>
     </section>

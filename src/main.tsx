@@ -53,7 +53,7 @@ function Root() {
   useEffect(() => {
     if (saveLocalId(state.localId)) return;
     setStorageWarn(
-      '本機 ID 儲存失敗：此瀏覽器環境無法寫入本機儲存空間，ID 可能在重新載入後遺失。',
+      'Could not save the local ID: this browser environment cannot write to local storage, so the ID may be lost after a reload.',
     );
   }, [state.localId]);
 
@@ -64,7 +64,7 @@ function Root() {
       setStorageWarn(null);
       return true;
     }
-    setStorageWarn('裝置名稱儲存失敗：本機儲存空間無法寫入，名稱未持久化。');
+    setStorageWarn('Could not save the device name: local storage cannot be written, so the name was not persisted.');
     return false;
   }, []);
 
@@ -75,7 +75,7 @@ function Root() {
       setStorageWarn(null);
       return true;
     }
-    setStorageWarn('設定儲存失敗：本機儲存空間無法寫入，STUN 清單未持久化。');
+    setStorageWarn('Could not save settings: local storage cannot be written, so the STUN list was not persisted.');
     return false;
   }, []);
 
@@ -86,7 +86,7 @@ function Root() {
       setStorageWarn(null);
       return true;
     }
-    setStorageWarn('最近裝置儲存失敗：本機儲存空間無法寫入，清單未持久化。');
+    setStorageWarn('Could not save recent devices: local storage cannot be written, so the list was not persisted.');
     return false;
   }, []);
 

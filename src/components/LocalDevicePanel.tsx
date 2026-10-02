@@ -39,12 +39,12 @@ export function LocalDevicePanel({
   function saveName() {
     const trimmed = draft.trim();
     if (trimmed.length === 0) {
-      setNameError('名稱不能為空白。');
+      setNameError('Name must not be blank.');
       return;
     }
     const ok = onRename(trimmed);
     if (!ok) {
-      setNameError('儲存失敗：此環境無法寫入本機儲存空間。');
+      setNameError('Save failed: this environment cannot write to local storage.');
       return;
     }
     setNameError(null);
@@ -54,34 +54,39 @@ export function LocalDevicePanel({
   return (
     <section className="card" aria-labelledby="local-device-title">
       <h2 id="local-device-title" className="card__title">
-        本機裝置
+        Local device
       </h2>
       <p className="card__desc">
-        您的 OpenDesk ID（九位數字，自動產生並保存在本機瀏覽器）。本原型不會真的交換此 ID，也不會建立任何實際連線；真正的配對/信制機制尚未實作。
+        Your OpenDesk ID (nine digits, generated automatically and kept in this
+        browser only). This prototype never exchanges that ID with anyone and never
+        creates a real connection; real pairing and signalling are not implemented.
       </p>
       <div className="localid-row">
         <p className="localid-value">{formatId(localId)}</p>
         <button
           className="btn btn--ghost btn--small"
           onClick={handleCopy}
-          aria-label={`複製本機 ID ${formatId(localId)}`}
+          aria-label={`Copy local ID ${formatId(localId)}`}
         >
           {copyState === 'ok' ? <IconCheck size={16} /> : <IconCopy size={16} />}
           {copyState === 'ok'
-            ? '已複製到剪貼簿'
+            ? 'Copied to clipboard'
             : copyState === 'fail'
-              ? '複製失敗（瀏覽器拒絕存取）'
-              : '複製 ID'}
+              ? 'Copy failed (blocked by browser)'
+              : 'Copy ID'}
         </button>
       </div>
       <p aria-live="polite" style={{ minHeight: '1.2em', margin: '6px 0 0' }}>
         {copyState === 'fail' && (
-          <span className="error-text">剪貼簿複製失敗：瀏覽器或隱私設定拒絕了存取。</span>
+          <span className="error-text">
+            Clipboard copy failed: the browser or a privacy setting denied
+            access.
+          </span>
         )}
       </p>
 
       <div className="name-row">
-        <label htmlFor="device-name-input">裝置名稱</label>
+        <label htmlFor="device-name-input">Device name</label>
         {editing ? (
           <>
             <input
@@ -100,7 +105,7 @@ export function LocalDevicePanel({
               }}
             />
             <button className="btn btn--primary btn--small" onClick={saveName}>
-              儲存名稱
+              Save name
             </button>
             <button
               className="btn btn--ghost btn--small"
@@ -110,13 +115,13 @@ export function LocalDevicePanel({
                 setNameError(null);
               }}
             >
-              取消
+              Cancel
             </button>
           </>
         ) : (
           <>
             <span style={{ fontWeight: 600 }}>
-              {deviceName ?? '尚未命名（請點擊編輯）'}
+              {deviceName ?? 'Unnamed (click Edit name)'}
             </span>
             <button
               className="btn btn--ghost btn--small"
@@ -125,7 +130,7 @@ export function LocalDevicePanel({
                 setEditing(true);
               }}
             >
-              <IconPencil size={16} /> 編輯名稱
+              <IconPencil size={16} /> Edit name
             </button>
           </>
         )}
